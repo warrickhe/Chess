@@ -748,79 +748,81 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 isSelected = true;
             } else if ( !(selected[0] == r && selected[1] == c) ) {
                 Log.v("board[s1][s0]",board[selected[1]][selected[0]]+"");
-                if ( ( c == 0 || c == 7 ) && Math.abs(board[selected[1]][selected[0]]) == 1 ) {
-                    Log.v("Reached","true");
-                    updateOldBoard();
-                    togglePawnPromotion();
-                    TextView pawnKnight = findViewById(R.id.PawnKnight);
-                    TextView pawnBishop = findViewById(R.id.PawnBishop);
-                    TextView pawnRook = findViewById(R.id.PawnRook);
-                    TextView pawnQueen = findViewById(R.id.PawnQueen);
-                    cr[0] = c;
-                    cr[1] = r;
-                    pawnKnight.setOnClickListener( new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            board[selected[1]][selected[0]] = 3*board[selected[1]][selected[0]];
-                            togglePawnPromotion();
-                            updateBoard(selected[1], selected[0], cr[0], cr[1]);
-                            updateDisplayBoard();
-                            selected[0] = -1;
-                            selected[1] = -1;
-                            isWhiteTurn = !isWhiteTurn;
-                            isSelected = false;
-                        }
-                    });
-                    pawnBishop.setOnClickListener( new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            board[selected[1]][selected[0]] = 2*board[selected[1]][selected[0]];
-                            togglePawnPromotion();
-                            updateBoard(selected[1], selected[0], cr[0], cr[1]);
-                            updateDisplayBoard();
-                            selected[0] = -1;
-                            selected[1] = -1;
-                            isWhiteTurn = !isWhiteTurn;
-                            isSelected = false;
-                        }
-                    });
-                    pawnRook.setOnClickListener( new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            board[selected[1]][selected[0]] = 4*board[selected[1]][selected[0]];
-                            togglePawnPromotion();
-                            updateBoard(selected[1], selected[0], cr[0], cr[1]);
-                            updateDisplayBoard();
-                            selected[0] = -1;
-                            selected[1] = -1;
-                            isWhiteTurn = !isWhiteTurn;
-                            isSelected = false;
-                        }
-                    });
-                    pawnQueen.setOnClickListener( new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            board[selected[1]][selected[0]] = 5*board[selected[1]][selected[0]];
-                            togglePawnPromotion();
-                            updateBoard(selected[1], selected[0], cr[0], cr[1]);
-                            updateDisplayBoard();
-                            selected[0] = -1;
-                            selected[1] = -1;
-                            isWhiteTurn = !isWhiteTurn;
-                            isSelected = false;
-                        }
-                    });
-                    Log.v("boardAtSelected",""+board[selected[1]][selected[0]]);
-                } else {
-                    updateBoard(selected[1], selected[0], c, r);
-                    //updateBoard(0,0,4,4);
+                if ( !(Math.signum(board[selected[1]][selected[0]]) == Math.signum(board[c][r])) ) {
+                    if ((c == 0 || c == 7) && Math.abs(board[selected[1]][selected[0]]) == 1) {
+                        Log.v("Reached", "true");
+                        updateOldBoard();
+                        togglePawnPromotion();
+                        TextView pawnKnight = findViewById(R.id.PawnKnight);
+                        TextView pawnBishop = findViewById(R.id.PawnBishop);
+                        TextView pawnRook = findViewById(R.id.PawnRook);
+                        TextView pawnQueen = findViewById(R.id.PawnQueen);
+                        cr[0] = c;
+                        cr[1] = r;
+                        pawnKnight.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                board[selected[1]][selected[0]] = 3 * board[selected[1]][selected[0]];
+                                togglePawnPromotion();
+                                updateBoard(selected[1], selected[0], cr[0], cr[1]);
+                                updateDisplayBoard();
+                                selected[0] = -1;
+                                selected[1] = -1;
+                                isWhiteTurn = !isWhiteTurn;
+                                isSelected = false;
+                            }
+                        });
+                        pawnBishop.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                board[selected[1]][selected[0]] = 2 * board[selected[1]][selected[0]];
+                                togglePawnPromotion();
+                                updateBoard(selected[1], selected[0], cr[0], cr[1]);
+                                updateDisplayBoard();
+                                selected[0] = -1;
+                                selected[1] = -1;
+                                isWhiteTurn = !isWhiteTurn;
+                                isSelected = false;
+                            }
+                        });
+                        pawnRook.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                board[selected[1]][selected[0]] = 4 * board[selected[1]][selected[0]];
+                                togglePawnPromotion();
+                                updateBoard(selected[1], selected[0], cr[0], cr[1]);
+                                updateDisplayBoard();
+                                selected[0] = -1;
+                                selected[1] = -1;
+                                isWhiteTurn = !isWhiteTurn;
+                                isSelected = false;
+                            }
+                        });
+                        pawnQueen.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                board[selected[1]][selected[0]] = 5 * board[selected[1]][selected[0]];
+                                togglePawnPromotion();
+                                updateBoard(selected[1], selected[0], cr[0], cr[1]);
+                                updateDisplayBoard();
+                                selected[0] = -1;
+                                selected[1] = -1;
+                                isWhiteTurn = !isWhiteTurn;
+                                isSelected = false;
+                            }
+                        });
+                        Log.v("boardAtSelected", "" + board[selected[1]][selected[0]]);
+                    } else {
+                        updateBoard(selected[1], selected[0], c, r);
+                        //updateBoard(0,0,4,4);
+                        updateDisplayBoard();
+                        selected[0] = -1;
+                        selected[1] = -1;
+                        isWhiteTurn = !isWhiteTurn;
+                        isSelected = false;
+                    }
                     updateDisplayBoard();
-                    selected[0] = -1;
-                    selected[1] = -1;
-                    isWhiteTurn = !isWhiteTurn;
-                    isSelected = false;
                 }
-                updateDisplayBoard();
             }
         }
         Log.v("Selected",selected[0]+" "+selected[1]);
