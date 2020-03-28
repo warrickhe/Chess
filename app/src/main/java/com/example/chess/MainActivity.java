@@ -1,5 +1,6 @@
 package com.example.chess;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,9 +25,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final int ROOK = 4;
     private final int QUEEN = 5;
     private final int KING = 6;
-    private int selectedPiece;
+    private int selectedPiece = 0;
     private int[] selected = {-1,-1};
     private int[] cr = {-1,-1};
+    private boolean[] hasMoved = {false,false,false,false,false,false};
+    //qside brook, kside brook, bking, qside wrook, kside wrook, wking
     private boolean isWhiteTurn = true;
     private boolean isSelected = false;
 
@@ -177,7 +180,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         DisplayBoard[7][7] = (TextView) findViewById(R.id.R77);
         DisplayBoardBackground[7][7] = (TextView) findViewById(R.id.R077);
         makeBoard();
+        updateNewBoard();
+        updateOldBoard();
         updateDisplayBoard();
+        updateDisplayBoardBackground();
     }
 
 
@@ -198,6 +204,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 updateNewBoard();
                 updateOldBoard();
                 updateDisplayBoard();
+                int[] temp = {-1,-1};
+                cr = temp;
+                updateDisplayBoardBackground();
             }
         });
         Button undo = (Button) findViewById(R.id.undoButton);
@@ -210,6 +219,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 selected = tempS;
                 isWhiteTurn = !isWhiteTurn;
                 isSelected = false;
+                int[] temp = {-1,-1};
+                cr = temp;
+                updateDisplayBoardBackground();
             }
         });
     }
@@ -480,276 +492,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.w("board[c][r]",board[c][r]+"");
         Log.w("c&r",c+" "+r);
         Log.v("Selected",selected[0]+" "+selected[1]);
-        if ( ( isWhiteTurn && (board[c][r] > 0 || isSelected ) )
-                || ( !isWhiteTurn && (board[c][r] < 0 || isSelected ) ) ){
-            if ( selected[0] == -1 && selected[1] == -1) {
-                switch (v.getId()) {
-                    case R.id.R00:
-                        selected[0] = 0;
-                        selected[1] = 0;
-                        break;
-                    case R.id.R10:
-                        selected[0] = 1;
-                        selected[1] = 0;
-                        break;
-                    case R.id.R20:
-                        selected[0] = 2;
-                        selected[1] = 0;
-                        break;
-                    case R.id.R30:
-                        selected[0] = 3;
-                        selected[1] = 0;
-                        break;
-                    case R.id.R40:
-                        selected[0] = 4;
-                        selected[1] = 0;
-                        break;
-                    case R.id.R50:
-                        selected[0] = 5;
-                        selected[1] = 0;
-                        break;
-                    case R.id.R60:
-                        selected[0] = 6;
-                        selected[1] = 0;
-                        break;
-                    case R.id.R70:
-                        selected[0] = 7;
-                        selected[1] = 0;
-                        break;
-                    case R.id.R01:
-                        selected[0] = 0;
-                        selected[1] = 1;
-                        break;
-                    case R.id.R11:
-                        selected[0] = 1;
-                        selected[1] = 1;
-                        break;
-                    case R.id.R21:
-                        selected[0] = 2;
-                        selected[1] = 1;
-                        break;
-                    case R.id.R31:
-                        selected[0] = 3;
-                        selected[1] = 1;
-                        break;
-                    case R.id.R41:
-                        selected[0] = 4;
-                        selected[1] = 1;
-                        break;
-                    case R.id.R51:
-                        selected[0] = 5;
-                        selected[1] = 1;
-                        break;
-                    case R.id.R61:
-                        selected[0] = 6;
-                        selected[1] = 1;
-                        break;
-                    case R.id.R71:
-                        selected[0] = 7;
-                        selected[1] = 1;
-                        break;
-                    case R.id.R02:
-                        selected[0] = 0;
-                        selected[1] = 2;
-                        break;
-                    case R.id.R12:
-                        selected[0] = 1;
-                        selected[1] = 2;
-                        break;
-                    case R.id.R22:
-                        selected[0] = 2;
-                        selected[1] = 2;
-                        break;
-                    case R.id.R32:
-                        selected[0] = 3;
-                        selected[1] = 2;
-                        break;
-                    case R.id.R42:
-                        selected[0] = 4;
-                        selected[1] = 2;
-                        break;
-                    case R.id.R52:
-                        selected[0] = 5;
-                        selected[1] = 2;
-                        break;
-                    case R.id.R62:
-                        selected[0] = 6;
-                        selected[1] = 2;
-                        break;
-                    case R.id.R72:
-                        selected[0] = 7;
-                        selected[1] = 2;
-                        break;
-                    case R.id.R03:
-                        selected[0] = 0;
-                        selected[1] = 3;
-                        break;
-                    case R.id.R13:
-                        selected[0] = 1;
-                        selected[1] = 3;
-                        break;
-                    case R.id.R23:
-                        selected[0] = 2;
-                        selected[1] = 3;
-                        break;
-                    case R.id.R33:
-                        selected[0] = 3;
-                        selected[1] = 3;
-                        break;
-                    case R.id.R43:
-                        selected[0] = 4;
-                        selected[1] = 3;
-                        break;
-                    case R.id.R53:
-                        selected[0] = 5;
-                        selected[1] = 3;
-                        break;
-                    case R.id.R63:
-                        selected[0] = 6;
-                        selected[1] = 3;
-                        break;
-                    case R.id.R73:
-                        selected[0] = 7;
-                        selected[1] = 3;
-                        break;
-                    case R.id.R04:
-                        selected[0] = 0;
-                        selected[1] = 4;
-                        break;
-                    case R.id.R14:
-                        selected[0] = 1;
-                        selected[1] = 4;
-                        break;
-                    case R.id.R24:
-                        selected[0] = 2;
-                        selected[1] = 4;
-                        break;
-                    case R.id.R34:
-                        selected[0] = 3;
-                        selected[1] = 4;
-                        break;
-                    case R.id.R44:
-                        selected[0] = 4;
-                        selected[1] = 4;
-                        break;
-                    case R.id.R54:
-                        selected[0] = 5;
-                        selected[1] = 4;
-                        break;
-                    case R.id.R64:
-                        selected[0] = 6;
-                        selected[1] = 4;
-                        break;
-                    case R.id.R74:
-                        selected[0] = 7;
-                        selected[1] = 4;
-                        break;
-                    case R.id.R05:
-                        selected[0] = 0;
-                        selected[1] = 5;
-                        break;
-                    case R.id.R15:
-                        selected[0] = 1;
-                        selected[1] = 5;
-                        break;
-                    case R.id.R25:
-                        selected[0] = 2;
-                        selected[1] = 5;
-                        break;
-                    case R.id.R35:
-                        selected[0] = 3;
-                        selected[1] = 5;
-                        break;
-                    case R.id.R45:
-                        selected[0] = 4;
-                        selected[1] = 5;
-                        break;
-                    case R.id.R55:
-                        selected[0] = 5;
-                        selected[1] = 5;
-                        break;
-                    case R.id.R65:
-                        selected[0] = 6;
-                        selected[1] = 5;
-                        break;
-                    case R.id.R75:
-                        selected[0] = 7;
-                        selected[1] = 5;
-                        break;
-                    case R.id.R06:
-                        selected[0] = 0;
-                        selected[1] = 6;
-                        break;
-                    case R.id.R16:
-                        selected[0] = 1;
-                        selected[1] = 6;
-                        break;
-                    case R.id.R26:
-                        selected[0] = 2;
-                        selected[1] = 6;
-                        break;
-                    case R.id.R36:
-                        selected[0] = 3;
-                        selected[1] = 6;
-                        break;
-                    case R.id.R46:
-                        selected[0] = 4;
-                        selected[1] = 6;
-                        break;
-                    case R.id.R56:
-                        selected[0] = 5;
-                        selected[1] = 6;
-                        break;
-                    case R.id.R66:
-                        selected[0] = 6;
-                        selected[1] = 6;
-                        break;
-                    case R.id.R76:
-                        selected[0] = 7;
-                        selected[1] = 6;
-                        break;
-                    case R.id.R07:
-                        selected[0] = 0;
-                        selected[1] = 7;
-                        break;
-                    case R.id.R17:
-                        selected[0] = 1;
-                        selected[1] = 7;
-                        break;
-                    case R.id.R27:
-                        selected[0] = 2;
-                        selected[1] = 7;
-                        break;
-                    case R.id.R37:
-                        selected[0] = 3;
-                        selected[1] = 7;
-                        break;
-                    case R.id.R47:
-                        selected[0] = 4;
-                        selected[1] = 7;
-                        break;
-                    case R.id.R57:
-                        selected[0] = 5;
-                        selected[1] = 7;
-                        break;
-                    case R.id.R67:
-                        selected[0] = 6;
-                        selected[1] = 7;
-                        break;
-                    case R.id.R77:
-                        selected[0] = 7;
-                        selected[1] = 7;
-                        break;
-                }
+        Log.v("SelectedPieceSignum",Math.signum(selectedPiece) +"");
+        Log.v("Board[c][r]Signum",Math.signum(board[c][r])  +"");
+        Log.v("checkIfSelect...",checkIfSelectRightColor(c,r) +"");
+        if ( isWhiteTurn && (board[c][r] > 0 || isSelected )  || ( !isWhiteTurn && (board[c][r] < 0 || isSelected ) ) ){
+            Log.w("reached","true");
+            if ( selected[0] == -1 && selected[1] == -1 || (Math.signum(board[c][r]) == Math.signum(selectedPiece) && checkIfSelectRightColor(c,r)  ) ) {
+                selected[0] = r;
+                selected[1] = c;
                 if ( board[selected[1]][selected[0]] == 0 ) {
                     selected[0] = -1;
                     selected[1] = -1;
                 }
                 isSelected = true;
+                selectedPiece = board[c][r];
+                cr[0] = c;
+                cr[1] = r;
+                updateDisplayBoardBackground();
             } else if ( !(selected[0] == r && selected[1] == c) ) {
                 Log.v("board[s1][s0]",board[selected[1]][selected[0]]+"");
                 if ( !(Math.signum(board[selected[1]][selected[0]]) == Math.signum(board[c][r])) ) {
-                    if ((c == 0 || c == 7) && Math.abs(board[selected[1]][selected[0]]) == 1) {
+                    if ((c == 0 || c == 7) && Math.abs(board[selected[1]][selected[0]]) == 1) { // pawn promotion conditional
                         Log.v("Reached", "true");
                         updateOldBoard();
                         togglePawnPromotion();
@@ -812,7 +575,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         });
                         Log.v("boardAtSelected", "" + board[selected[1]][selected[0]]);
-                    } else {
+                    } else { // normal
                         updateBoard(selected[1], selected[0], c, r);
                         //updateBoard(0,0,4,4);
                         updateDisplayBoard();
@@ -820,12 +583,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         selected[1] = -1;
                         isWhiteTurn = !isWhiteTurn;
                         isSelected = false;
+                        int[] temp = {-1,-1};
+                        cr = temp;
+                        updateDisplayBoardBackground();
                     }
-                    updateDisplayBoard();
                 }
             }
         }
-        Log.v("Selected",selected[0]+" "+selected[1]);
+        Log.v("Selected",selected[0]+" "+selected[1]+"\n \n");
     }
 
 
@@ -870,6 +635,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for ( int i = 0; i < 8; i++ ){
             board[i] = Arrays.copyOf(oldBoard[i],8);
         }
+    }
+
+    public void updateDisplayBoardBackground(){
+        //#AA1E32
+        for ( int i = 0; i < 8; i++ ){
+            for ( int j = 0; j < 8; j++ ){
+                if ( (i+j)%2 == 1 )
+                    DisplayBoardBackground[i][j].setBackgroundColor(Color.parseColor("#fff1DC"));
+                else
+                    DisplayBoardBackground[i][j].setBackgroundColor(Color.parseColor("#B6946E"));
+            }
+        }
+        if ( !(cr[0] == -1) )
+            DisplayBoardBackground[cr[1]][cr[0]].setBackgroundColor(Color.parseColor("#AA1E32"));
     }
 
     public void updateDisplayBoard(){
@@ -931,5 +710,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             layout.setVisibility(View.INVISIBLE);
             layout2.setVisibility(View.INVISIBLE);
         }
+    }
+
+    public boolean checkIfSelectRightColor(int c, int r){
+        int x = -1;
+        if ( isWhiteTurn )
+            x = 1;
+        return Math.signum(board[c][r]) == x;
     }
 }
